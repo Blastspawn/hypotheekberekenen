@@ -45,18 +45,14 @@ Er zijn geen secrets, database of volumes nodig.
 
 ### Publicatiescript
 
-Deployment blijft, net als in `defaultwebsite`, bewust handmatig. Kopieer
-`scripts/deploy.example.sh` naar `scripts/deploy.sh`, vul de SSH-host in en controleer het
-doelpad. Het script haalt daarna alleen fast-forward wijzigingen van `main` op, valideert
-de productie-Compose en bouwt en herstart de stack.
+Deployment blijft bewust handmatig en volgt hetzelfde patroon als `blocksolver` en
+`gemsolver`. `scripts/deploy.sh` gebruikt de SSH-alias `web-prod`, werkt in
+`/opt/apps/hypotheekberekenen`, haalt alleen fast-forward wijzigingen van `main` op,
+valideert de productie-Compose en bouwt en herstart de stack.
 
 ```bash
-cp scripts/deploy.example.sh scripts/deploy.sh
-chmod +x scripts/deploy.sh
 ./scripts/deploy.sh
 ```
-
-Commit `scripts/deploy.sh` niet wanneer het echte hostgegevens bevat.
 
 ## Configuratie en fiscaliteit
 
