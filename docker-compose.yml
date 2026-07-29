@@ -1,0 +1,16 @@
+services:
+  hypotheekberekenen:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hypotheekberekenen
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3002}:3002"
+    init: true
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3002/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
