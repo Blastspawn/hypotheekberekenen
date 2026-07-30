@@ -3,15 +3,15 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { useMortgageStore } from '../store/useMortgageStore'
 
 const navigation: ReadonlyArray<readonly [string, string, string]> = [
-  ['/', 'Overzicht', '⌂'],
-  ['/berekening', 'Berekening', '✎'],
-  ['/maanden', 'Maanden', '≡'],
-  ['/jaren', 'Jaren', '▦'],
-  ['/grafieken', 'Grafieken', '⌁'],
-  ['/vergelijken', 'Vergelijken', '⇄'],
-  ['/export', 'Import & export', '⇩'],
-  ['/instellingen', 'Instellingen', '⚙'],
-  ['/uitleg', 'Uitleg', '?'],
+  ['/', 'Overzicht', '01'],
+  ['/berekening', 'Berekening', '02'],
+  ['/maanden', 'Maanden', '03'],
+  ['/jaren', 'Jaren', '04'],
+  ['/grafieken', 'Grafieken', '05'],
+  ['/vergelijken', 'Vergelijken', '06'],
+  ['/export', 'Import & export', '07'],
+  ['/instellingen', 'Instellingen', '08'],
+  ['/uitleg', 'Uitleg', '09'],
 ]
 
 export function Layout() {
@@ -40,10 +40,10 @@ export function Layout() {
     <div className="app" data-theme={activeTheme}>
       <aside className="sidebar">
         <div className="brand">
-          <span className="brand-mark">H</span>
+          <span className="brand-mark" aria-hidden="true"><i /></span>
           <div>
-            <strong>Hypotheekplanner</strong>
-            <small>Inzicht voor thuis</small>
+            <strong>BLASTSPAWN</strong>
+            <small>Hypotheek / planner</small>
           </div>
         </div>
         <nav aria-label="Hoofdnavigatie">
@@ -55,7 +55,7 @@ export function Layout() {
           ))}
         </nav>
         <div className="sidebar-note">
-          <strong>100% lokaal</strong>
+          <strong><i /> 100% lokaal</strong>
           <span>Je financiële gegevens verlaten deze browser niet.</span>
         </div>
       </aside>

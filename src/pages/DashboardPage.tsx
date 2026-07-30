@@ -40,15 +40,15 @@ export function DashboardPage() {
           <ResponsiveContainer width="100%" height={310}>
             <AreaChart data={chartData}>
               <defs>
-                <linearGradient id="debt" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#d19459" stopOpacity={0.35}/><stop offset="95%" stopColor="#d19459" stopOpacity={0}/></linearGradient>
-                <linearGradient id="home" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#24644e" stopOpacity={0.3}/><stop offset="95%" stopColor="#24644e" stopOpacity={0}/></linearGradient>
+                <linearGradient id="debt" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#ff5a1f" stopOpacity={0.28}/><stop offset="95%" stopColor="#ff5a1f" stopOpacity={0}/></linearGradient>
+                <linearGradient id="home" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#77736b" stopOpacity={0.22}/><stop offset="95%" stopColor="#77736b" stopOpacity={0}/></linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="4 4" vertical={false} />
               <XAxis dataKey="jaar" />
               <YAxis tickFormatter={(value: number) => `€${Math.round(value / 1000)}k`} width={62} />
               <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-              <Area type="monotone" dataKey="woning" stroke="#24644e" fill="url(#home)" name="Woningwaarde" />
-              <Area type="monotone" dataKey="schuld" stroke="#c47d3f" fill="url(#debt)" name="Hypotheekschuld" />
+              <Area type="monotone" dataKey="woning" stroke="#77736b" fill="url(#home)" name="Woningwaarde" />
+              <Area type="monotone" dataKey="schuld" stroke="#ff5a1f" fill="url(#debt)" name="Hypotheekschuld" />
             </AreaChart>
           </ResponsiveContainer>
         </article>
