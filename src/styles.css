@@ -72,9 +72,9 @@ main { padding: 45px 4.5vw 70px; max-width: 1600px; margin: 0 auto; }
 ::selection { color: #0a0a09; background: #ff5a1f; }
 
 .app {
-  --bg: #f1ede3;
-  --surface: #f8f5ee;
-  --surface-2: #e4dfd4;
+  --bg: #e8e2d7;
+  --surface: #f1ede3;
+  --surface-2: #ddd6ca;
   --text: #0a0a09;
   --muted: #77736b;
   --border: #c9c4b9;
@@ -93,8 +93,8 @@ main { padding: 45px 4.5vw 70px; max-width: 1600px; margin: 0 auto; }
   --bg: #0a0a09;
   --surface: #121211;
   --surface-2: #242421;
-  --text: #f1ede3;
-  --muted: #aaa69d;
+  --text: #ded9cf;
+  --muted: #96928a;
   --border: #3a3935;
   --green: #ff5a1f;
   --green-2: #ff7542;
@@ -277,9 +277,12 @@ main {
 
 .page-header h1 {
   margin: 10px 0 12px;
-  font: 900 clamp(42px, 6vw, 74px)/.88 Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  letter-spacing: -.035em;
-  text-transform: uppercase;
+  max-width: 880px;
+  font-family: "Segoe UI Variable Display", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(34px, 4.3vw, 54px);
+  font-weight: 720;
+  line-height: 1.02;
+  letter-spacing: -.045em;
 }
 
 .page-header p {
@@ -335,8 +338,11 @@ main {
 
 .metric-card strong {
   margin-top: 26px;
-  font: 900 clamp(23px, 3vw, 36px)/1 Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  letter-spacing: -.02em;
+  font-family: "Segoe UI Variable Display", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(23px, 2.7vw, 34px);
+  font-weight: 720;
+  line-height: 1;
+  letter-spacing: -.035em;
 }
 
 .metric-card small { font-size: 10px; }
@@ -361,9 +367,11 @@ main {
 
 .panel h2 {
   margin: 6px 0 20px;
-  font: 900 24px/1 Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  letter-spacing: .015em;
-  text-transform: uppercase;
+  font-family: "Segoe UI Variable Display", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.025em;
 }
 
 .panel-heading a,
@@ -449,7 +457,7 @@ tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); 
 .comparison-card.selected { border-color: var(--accent); box-shadow: inset 0 3px var(--accent); }
 
 .scenario-number {
-  font: 900 90px Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font: 750 82px/1 "Segoe UI Variable Display", "Segoe UI", Inter, sans-serif;
 }
 
 .export-button > span {
@@ -460,7 +468,7 @@ tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); 
 
 .help-card > span {
   color: var(--accent);
-  font: 900 24px Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font: 750 20px "Segoe UI Variable Display", "Segoe UI", Inter, sans-serif;
 }
 
 .positive { color: #287253; }
@@ -483,7 +491,7 @@ tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); 
   .topbar { height: 62px; }
   main { padding: 34px 16px 54px; }
   .page-header { margin-bottom: 28px; }
-  .page-header h1 { font-size: clamp(39px, 13vw, 58px); }
+  .page-header h1 { font-size: clamp(31px, 10vw, 43px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

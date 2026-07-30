@@ -17,8 +17,8 @@ export function DashboardPage() {
   return (
     <>
       <PageHeader
-        eyebrow={`Belastingjaar ${scenario.tax.taxYear}`}
-        title={`Goedemorgen, dit is ${scenario.name}`}
+        eyebrow={`Scenario-overzicht · belastingjaar ${scenario.tax.taxYear}`}
+        title={scenario.name}
         description="Je hypotheek in één oogopslag, doorgerekend met je eigen fiscale aannames."
         actions={<Link className="button primary" to="/berekening">Berekening aanpassen</Link>}
       />
