@@ -45,8 +45,7 @@ Er zijn geen secrets, database of volumes nodig.
 
 ### Publicatiescript
 
-Deployment blijft bewust handmatig en volgt hetzelfde patroon als `blocksolver` en
-`gemsolver`. `scripts/deploy.sh` gebruikt de SSH-alias `web-prod`, werkt in
+`scripts/deploy.sh` gebruikt de SSH-alias `web-prod`, werkt in
 `/opt/apps/hypotheekberekenen`, haalt alleen fast-forward wijzigingen van `main` op,
 valideert de productie-Compose en bouwt en herstart de stack.
 
