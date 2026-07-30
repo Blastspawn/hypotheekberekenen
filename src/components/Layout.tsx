@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useMortgageStore } from '../store/useMortgageStore'
 
@@ -16,8 +17,27 @@ const navigation: ReadonlyArray<readonly [string, string, string]> = [
 export function Layout() {
   const { scenarios, activeScenarioId, setActiveScenario, theme, toggleTheme } =
     useMortgageStore()
+  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(() =>
+    window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+  )
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)')
+    if (!mediaQuery) return
+
+    const updateSystemTheme = (event: MediaQueryListEvent | MediaQueryList) =>
+      setSystemTheme(event.matches ? 'dark' : 'light')
+
+    updateSystemTheme(mediaQuery)
+    mediaQuery.addEventListener('change', updateSystemTheme)
+    return () => mediaQuery.removeEventListener('change', updateSystemTheme)
+  }, [])
+
+  const activeTheme = theme === 'system' ? systemTheme : theme
+  const nextTheme = theme === 'system' ? 'licht' : theme === 'light' ? 'donker' : 'systeem'
+
   return (
-    <div className="app" data-theme={theme}>
+    <div className="app" data-theme={activeTheme}>
       <aside className="sidebar">
         <div className="brand">
           <span className="brand-mark">H</span>
@@ -54,8 +74,13 @@ export function Layout() {
               ))}
             </select>
           </label>
-          <button className="icon-button" onClick={toggleTheme} aria-label="Kleurmodus wisselen">
-            {theme === 'light' ? '☾' : '☀'}
+          <button
+            className="icon-button"
+            onClick={toggleTheme}
+            aria-label={`Kleurmodus: ${theme}. Wissel naar ${nextTheme}`}
+            title={`Kleurmodus: ${theme === 'system' ? 'systeem' : theme}. Klik voor ${nextTheme}`}
+          >
+            {theme === 'system' ? '◐' : theme === 'light' ? '☀' : '☾'}
           </button>
         </header>
         <main>

@@ -6,7 +6,7 @@ import type { Scenario } from '../types/mortgage'
 interface MortgageState {
   scenarios: Scenario[]
   activeScenarioId: string
-  theme: 'light' | 'dark'
+  theme: 'system' | 'light' | 'dark'
   setActiveScenario: (id: string) => void
   saveScenario: (scenario: Scenario) => void
   duplicateScenario: (id: string) => void
@@ -23,7 +23,7 @@ export const useMortgageStore = create<MortgageState>()(
     (set) => ({
       scenarios: examples,
       activeScenarioId: examples[0]!.id,
-      theme: 'light',
+      theme: 'system',
       setActiveScenario: (activeScenarioId) => set({ activeScenarioId }),
       saveScenario: (scenario) =>
         set((state) => ({
@@ -60,7 +60,10 @@ export const useMortgageStore = create<MortgageState>()(
         set({ scenarios: fresh, activeScenarioId: fresh[0]!.id })
       },
       toggleTheme: () =>
-        set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
+        set((state) => ({
+          theme:
+            state.theme === 'system' ? 'light' : state.theme === 'light' ? 'dark' : 'system',
+        })),
     }),
     { name: 'hypotheekplanner-v1', version: 1 },
   ),

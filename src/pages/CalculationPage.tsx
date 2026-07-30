@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '../components/PageHeader'
 import { useActiveScenario } from '../hooks/useActiveScenario'
 import { useMortgageStore } from '../store/useMortgageStore'
@@ -11,6 +12,7 @@ import { formatCurrency } from '../utils/format'
 const numberValue = { valueAsNumber: true }
 
 export function CalculationPage() {
+  const navigate = useNavigate()
   const { scenario } = useActiveScenario()
   const saveScenario = useMortgageStore((state) => state.saveScenario)
   const {
@@ -27,8 +29,10 @@ export function CalculationPage() {
   const loanTotal = values.loanParts?.reduce((sum, part) => sum + (part.principal || 0), 0) ?? 0
 
   if (!scenario) return null
-  const onSubmit = (data: Scenario) =>
+  const onSubmit = (data: Scenario) => {
     saveScenario({ ...data, updatedAt: new Date().toISOString() })
+    navigate('/')
+  }
 
   return (
     <>
