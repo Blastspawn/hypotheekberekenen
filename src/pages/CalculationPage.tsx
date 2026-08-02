@@ -20,6 +20,7 @@ export function CalculationPage() {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isDirty },
   } = useForm<Scenario>({ resolver: zodResolver(scenarioSchema), defaultValues: scenario })
   const loans = useFieldArray({ control, name: 'loanParts' })
@@ -92,7 +93,7 @@ export function CalculationPage() {
             <button className="button secondary" type="button" onClick={() => loans.append({
               id: crypto.randomUUID(), name: `Leningdeel ${loans.fields.length + 1}`, type: 'annuity',
               principal: 100_000, startDate: values.startDate, termYears: values.termYears, annualRate: 4,
-              fixedRateYears: 10, paymentFrequency: 'monthly', closingCosts: 0, deductible: true,
+              fixedRateEndDate: '', paymentFrequency: 'monthly', closingCosts: 0, deductible: true,
               interestOnlyEndBalance: 0, interestChanges: [],
             })}>+ Leningdeel</button>
           </div>
@@ -108,12 +109,61 @@ export function CalculationPage() {
                   <Field label="Startdatum"><input type="date" {...register(`loanParts.${index}.startDate`)} /></Field>
                   <Field label="Looptijd (jaar)"><input type="number" {...register(`loanParts.${index}.termYears`, numberValue)} /></Field>
                   <Field label="Nominale rente (%)"><input type="number" step="0.01" {...register(`loanParts.${index}.annualRate`, numberValue)} /></Field>
-                  <Field label="Rentevast (jaar)"><input type="number" {...register(`loanParts.${index}.fixedRateYears`, numberValue)} /></Field>
+                  <Field label="Rentevaste periode eindigt op"><input type="date" {...register(`loanParts.${index}.fixedRateEndDate`)} /></Field>
                   <Field label="Afsluitkosten"><input type="number" {...register(`loanParts.${index}.closingCosts`, numberValue)} /></Field>
                   <Field label="Gewenst aflossingsvrij eindsaldo"><input type="number" {...register(`loanParts.${index}.interestOnlyEndBalance`, numberValue)} /></Field>
                   <Field label="Notities"><input {...register(`loanParts.${index}.notes`)} /></Field>
                 </div>
                 <label className="check"><input type="checkbox" {...register(`loanParts.${index}.deductible`)} /> Rente fiscaal aftrekbaar</label>
+                <div className="rate-changes">
+                  <div className="loan-card-head">
+                    <div><strong>Toekomstige rentewijzigingen</strong><small>De nieuwe rente geldt vanaf het begin van de gekozen kalendermaand.</small></div>
+                    <button
+                      className="button secondary"
+                      type="button"
+                      onClick={() => {
+                        const current = values.loanParts[index]?.interestChanges ?? []
+                        setValue(`loanParts.${index}.interestChanges`, [
+                          ...current,
+                          {
+                            id: crypto.randomUUID(),
+                            effectiveDate: values.loanParts[index]?.fixedRateEndDate || values.startDate,
+                            annualRate: values.loanParts[index]?.annualRate ?? 0,
+                            strategy: 'keepTerm',
+                          },
+                        ], { shouldDirty: true, shouldValidate: true })
+                      }}
+                    >+ Rentewijziging</button>
+                  </div>
+                  {(values.loanParts[index]?.interestChanges ?? []).map((change, changeIndex) => (
+                    <div className="rate-change-row" key={change.id}>
+                      <Field label="Nieuwe rente vanaf">
+                        <input type="date" {...register(`loanParts.${index}.interestChanges.${changeIndex}.effectiveDate`)} />
+                      </Field>
+                      <Field label="Nieuwe nominale rente (%)">
+                        <input type="number" step="0.01" {...register(`loanParts.${index}.interestChanges.${changeIndex}.annualRate`, numberValue)} />
+                      </Field>
+                      <Field label="Na de wijziging">
+                        <select {...register(`loanParts.${index}.interestChanges.${changeIndex}.strategy`)}>
+                          <option value="keepTerm">Looptijd gelijk houden</option>
+                          <option value="keepPayment">Maandtermijn gelijk houden</option>
+                        </select>
+                      </Field>
+                      <button
+                        type="button"
+                        className="text-button danger"
+                        onClick={() => {
+                          const current = values.loanParts[index]?.interestChanges ?? []
+                          setValue(
+                            `loanParts.${index}.interestChanges`,
+                            current.filter((_, itemIndex) => itemIndex !== changeIndex),
+                            { shouldDirty: true, shouldValidate: true },
+                          )
+                        }}
+                      >Verwijderen</button>
+                    </div>
+                  ))}
+                </div>
               </article>
             ))}
           </div>

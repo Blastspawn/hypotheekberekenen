@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createDefaultScenario } from '../../config/defaults'
+import { addMonths } from '../../utils/date'
 import { calculateScenario } from './generateSchedule'
 
 describe('hypotheekschema', () => {
@@ -54,6 +55,32 @@ describe('hypotheekschema', () => {
     const result = calculateScenario(scenario)
     expect(result.rows[120]!.annualRate).toBe(6)
     expect(result.rows[120]!.grossPayment).toBeGreaterThan(result.rows[119]!.grossPayment)
+  })
+
+  it('past een rente ook na acht jaar en tien maanden in de juiste maand toe', () => {
+    const scenario = createDefaultScenario()
+    const effectiveDate = addMonths(scenario.startDate, 106)
+    scenario.loanParts[0]!.fixedRateEndDate = effectiveDate
+    scenario.loanParts[0]!.interestChanges = [{
+      id: 'rate-8y10m', effectiveDate, annualRate: 5.25, strategy: 'keepTerm',
+    }]
+
+    const result = calculateScenario(scenario)
+
+    expect(result.rows[105]!.annualRate).toBe(4)
+    expect(result.rows[106]!.annualRate).toBe(5.25)
+    expect(result.rows[106]!.grossPayment).toBeGreaterThan(result.rows[105]!.grossPayment)
+    expect(result.warnings.some((warning) => warning.includes('ontbreekt een nieuw rentepercentage'))).toBe(false)
+  })
+
+  it('meldt een ontbrekende rente na de exacte rentevaste einddatum', () => {
+    const scenario = createDefaultScenario()
+    scenario.loanParts[0]!.fixedRateEndDate = addMonths(scenario.startDate, 106)
+    scenario.loanParts[0]!.interestChanges = []
+
+    const result = calculateScenario(scenario)
+
+    expect(result.warnings.some((warning) => warning.includes('ontbreekt een nieuw rentepercentage'))).toBe(true)
   })
 
   it('combineert leningdelen zonder fiscale aftrek boven de rente', () => {

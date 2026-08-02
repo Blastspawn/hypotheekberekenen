@@ -9,7 +9,7 @@ slaat scenario's lokaal op en gebruikt geen externe diensten.
 - Meerdere leningdelen met eigen vorm, rente, looptijd en fiscale behandeling
 - Eenmalige, maandelijkse en jaarlijkse extra aflossingen
 - Looptijd verkorten of toekomstige maandtermijn verlagen
-- Toekomstige rentewijzigingen in de rekenkern
+- Exacte rentevaste einddatums en meerdere toekomstige rentewijzigingen per leningdeel
 - Configureerbare renteaftrek, eigenwoningforfait en fiscale begrenzingen
 - Maand- en jaaroverzicht met filters, sortering, kolomkeuze en paginering
 - Grafieken voor lasten, rente, aflossing, schuld en woningwaarde

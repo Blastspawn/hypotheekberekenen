@@ -11,8 +11,8 @@ export const loanPartSchema = z.object({
   startDate: z.string().date(),
   termYears: z.number().int().min(1).max(60),
   annualRate: percentage,
-  fixedRateYears: z.number().int().min(1).max(60),
-  fixedRateEndDate: z.string().optional(),
+  fixedRateYears: z.number().int().min(1).max(60).optional(),
+  fixedRateEndDate: z.union([z.string().date(), z.literal('')]).optional(),
   paymentFrequency: z.literal('monthly'),
   closingCosts: nonNegative,
   deductible: z.boolean(),
@@ -97,6 +97,14 @@ export const scenarioSchema = z
           code: 'custom',
           message: `De rentevaste einddatum van ${part.name} moet na de startdatum liggen.`,
         })
+      }
+      for (const change of sorted) {
+        if (change.effectiveDate <= part.startDate) {
+          context.addIssue({
+            code: 'custom',
+            message: `Een rentewijziging van ${part.name} moet na de startdatum liggen.`,
+          })
+        }
       }
     }
   })

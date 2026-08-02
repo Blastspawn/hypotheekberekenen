@@ -18,7 +18,8 @@ export interface LoanPart {
   startDate: string
   termYears: number
   annualRate: number
-  fixedRateYears: number
+  /** Alleen behouden voor compatibiliteit met scenario's uit een oudere versie. */
+  fixedRateYears?: number
   fixedRateEndDate?: string
   paymentFrequency: PaymentFrequency
   closingCosts: number

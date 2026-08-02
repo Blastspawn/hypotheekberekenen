@@ -222,6 +222,18 @@ export function calculateScenario(scenario: Scenario): ScenarioResult {
   if (Math.abs(totalPrincipal.toNumber() - scenario.desiredLoan) > 0.01) {
     warnings.push('De som van de leningdelen wijkt af van de gewenste totale lening.')
   }
+  for (const part of scenario.loanParts) {
+    if (!part.fixedRateEndDate) continue
+    const partEndDate = rows.filter((row) => row.loanPartId === part.id).at(-1)?.date
+    const hasRateAtFixedEnd = part.interestChanges.some(
+      (change) => change.effectiveDate.slice(0, 7) === part.fixedRateEndDate?.slice(0, 7),
+    )
+    if (partEndDate && part.fixedRateEndDate <= partEndDate && !hasRateAtFixedEnd) {
+      warnings.push(
+        `Voor ${part.name} ontbreekt een nieuw rentepercentage vanaf ${part.fixedRateEndDate}. Totdat je dit toevoegt, blijft ${part.annualRate}% als rekenaanname gelden.`,
+      )
+    }
+  }
   return {
     scenarioId: scenario.id,
     rows,

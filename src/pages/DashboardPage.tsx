@@ -4,7 +4,7 @@ import { MetricCard } from '../components/MetricCard'
 import { PageHeader } from '../components/PageHeader'
 import { taxDisclaimer } from '../config/defaults'
 import { useActiveScenario } from '../hooks/useActiveScenario'
-import { formatCurrency } from '../utils/format'
+import { formatAxisCurrency, formatCurrency } from '../utils/format'
 
 export function DashboardPage() {
   const { scenario, result } = useActiveScenario()
@@ -45,7 +45,7 @@ export function DashboardPage() {
               </defs>
               <CartesianGrid strokeDasharray="4 4" vertical={false} />
               <XAxis dataKey="jaar" />
-              <YAxis tickFormatter={(value: number) => `€${Math.round(value / 1000)}k`} width={62} />
+              <YAxis tickFormatter={formatAxisCurrency} width={72} />
               <Tooltip formatter={(value) => formatCurrency(Number(value))} />
               <Area type="monotone" dataKey="woning" stroke="#77736b" fill="url(#home)" name="Woningwaarde" />
               <Area type="monotone" dataKey="schuld" stroke="#ff5a1f" fill="url(#debt)" name="Hypotheekschuld" />

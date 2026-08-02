@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createExampleScenarios } from '../config/examples'
+import { normalizeScenario } from '../config/migrations'
 import type { Scenario } from '../types/mortgage'
 
 interface MortgageState {
@@ -53,8 +54,10 @@ export const useMortgageStore = create<MortgageState>()(
               state.activeScenarioId === id ? scenarios[0]!.id : state.activeScenarioId,
           }
         }),
-      importScenarios: (scenarios) =>
-        set({ scenarios, activeScenarioId: scenarios[0]?.id ?? '' }),
+      importScenarios: (scenarios) => {
+        const normalized = scenarios.map(normalizeScenario)
+        set({ scenarios: normalized, activeScenarioId: normalized[0]?.id ?? '' })
+      },
       clearAll: () => {
         const fresh = createExampleScenarios()
         set({ scenarios: fresh, activeScenarioId: fresh[0]!.id })
@@ -65,6 +68,17 @@ export const useMortgageStore = create<MortgageState>()(
             state.theme === 'system' ? 'light' : state.theme === 'light' ? 'dark' : 'system',
         })),
     }),
-    { name: 'hypotheekplanner-v1', version: 1 },
+    {
+      name: 'hypotheekplanner-v1',
+      version: 1,
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<MortgageState>
+        return {
+          ...currentState,
+          ...persisted,
+          scenarios: (persisted.scenarios ?? currentState.scenarios).map(normalizeScenario),
+        }
+      },
+    },
   ),
 )

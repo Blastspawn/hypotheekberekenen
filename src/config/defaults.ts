@@ -1,4 +1,5 @@
 import type { Scenario, TaxSettings } from '../types/mortgage'
+import { addMonths } from '../utils/date'
 
 export const defaultTaxSettings: TaxSettings = {
   taxYear: 2026,
@@ -49,7 +50,7 @@ export function createDefaultScenario(): Scenario {
         startDate,
         termYears: 30,
         annualRate: 4,
-        fixedRateYears: 10,
+        fixedRateEndDate: addMonths(startDate, 120),
         paymentFrequency: 'monthly',
         closingCosts: 0,
         deductible: true,

@@ -20,6 +20,12 @@ De rente wordt steeds berekend over de beginstand. Een rentewijziging gaat aan h
 van de gekozen maand in. Bij `keepTerm` wordt de annuïteit opnieuw berekend over resterend
 saldo en resterende contractuele maanden. Bij nulrente is `A = P / n`.
 
+De rentevaste periode wordt als exacte einddatum opgeslagen, zodat bijvoorbeeld acht jaar
+en tien maanden niet naar een geheel jaar wordt afgerond. Een nieuwe rente wordt vanaf de
+ingevoerde kalendermaand toegepast. Omdat het schema maandperioden gebruikt, wordt een
+datum midden in een maand niet naar dagen pro rata verdeeld. Zonder ingevoerde vervolgrente
+blijft de oude rente als expliciet gewaarschuwde scenario-aanname gelden.
+
 Voorbeeld: € 350.000, 4% nominaal en 360 maanden geeft een eerste termijn van ongeveer
 € 1.670,95.
 
